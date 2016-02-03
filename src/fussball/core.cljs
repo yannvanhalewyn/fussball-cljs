@@ -1,5 +1,6 @@
 (ns fussball.core
-  (:require [reagent.core :as reagent :refer [atom]]))
+  (:require [reagent.core :as reagent :refer [atom]]
+            [fussball.add-match-form :as amf]))
 
 (enable-console-print!)
 
@@ -11,34 +12,12 @@
   :players ["David" "Yann" "Stefan" "Tom"]
   }))
 
-(defn select-option [option]
-  [:option {:value option} option])
-
-(defn select-with-options [name options]
-  [:select {:name name}
-    (map select-option options)])
-
-(defn add-match-button []
-  [:input {:type "button" :value "+" :on-click #(js/alert "Foobar!")} ])
-
-(defn input-with-label [placeholder]
-  [:input {:type "text" :placeholder placeholder}])
-
-(defn add-match-form [players]
-  [:div {:class-name "add-match-form"}
-    [:div {:class-name "team-a"}
-      [select-with-options "Player 1" players]
-      [input-with-label "Score"]]
-    [:div {:class-name "team-b"}
-      [select-with-options "Player 2" players]
-      [input-with-label "Score"]]
-    [:input {:type "submit" :value "Add" :onClick #(js/alert "ok")}]])
 
 (defn app-root []
   [:div
     [:h1 "Badass Fussball Application"]
-    [add-match-button]
-    [add-match-form (:players @app-state)]])
+    [amf/add-match-button]
+    [amf/add-match-form (:players @app-state)]])
 
 (reagent/render-component [app-root]
                           (. js/document (getElementById "app")))
