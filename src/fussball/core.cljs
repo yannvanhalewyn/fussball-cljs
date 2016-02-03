@@ -7,12 +7,33 @@
 
 ;; define your app data so that it doesn't get over-written on reload
 
-(defonce app-state (atom {:text "Hello world!"}))
+(defonce app-state (atom {:text "Fussball"}))
 
-(defn hello-world []
-  [:h1 (:text @app-state)])
+(defn add-match-button []
+  [:input {:type "button" :value "+" :on-click #(js/alert "Foobar!")} ])
 
-(reagent/render-component [hello-world]
+(defn input-with-label [placeholder]
+  [:input {:type "text" :placeholder placeholder}])
+
+(defn add-match-form []
+  [:div {:class-name "add-match-form"}
+    [:div {:class-name "team-a"}
+      [input-with-label "Player 1"]
+      [input-with-label "Player 2"]
+      [input-with-label "Score"]]
+    [:div {:class-name "team-b"}
+      [input-with-label "Player 1"]
+      [input-with-label "Player 2"]
+      [input-with-label "Score"]]
+    [:input {:type "submit" :value "Add" :onClick #(js/alert "ok")}]])
+
+(defn app-root []
+  [:div
+    [:h1 (:text @app-state)]
+    [add-match-button]
+    [add-match-form]])
+
+(reagent/render-component [app-root]
                           (. js/document (getElementById "app")))
 
 
