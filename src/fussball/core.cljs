@@ -9,7 +9,7 @@
 ;; define your app data so that it doesn't get over-written on reload
 
 (defonce app-state (atom {
-  :players ["David" "Yann" "Stefan" "Tom"]
+  :players ["David" "Yann" "Stefan" "Tom" "Richard" "Raymond" "Arjan" "Jaap" "Stijn" "Agnes" "Ivo" "Floris"]
   }))
 
 
@@ -17,7 +17,7 @@
   [:div
     [:h1 "Badass Fussball Application"]
     [amf/add-match-button]
-    [amf/add-match-form (:players @app-state)]])
+    [amf/add-match-form (sort (:players @app-state))]])
 
 (reagent/render-component [app-root]
                           (. js/document (getElementById "app")))
