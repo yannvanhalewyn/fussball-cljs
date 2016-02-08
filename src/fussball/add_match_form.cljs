@@ -1,5 +1,6 @@
 (ns fussball.add-match-form
-  (:require [reagent.core :refer [atom]]))
+  (:require [reagent.core :refer [atom]]
+            [re-frame.core :refer [dispatch]]))
 
 (defn select-option [option]
   [:option {:value option} option])
@@ -22,9 +23,9 @@
         [select-with-options "Player 1" players]
         [input-with-label "Score" {:on-change on-change}]])
 
-(defn add-match-form [players]
+(defn add-match-form [app-state]
   (let [scores (atom {:team_a 0 :team_b 0})]
     [:div
-      (team-input "Team A" {:players players :on-change #(set-score scores :team_a (.-target.value %))})
-      (team-input "Team B" {:players players :on-change #(set-score scores :team_b (.-target.value %))})
-      [:input {:type "submit" :value "Add" :on-click #(js/alert @scores)}]]))
+      (team-input "Team A" {:players (sort (:players @app-state)) :on-change #(set-score scores :team_a (.-target.value %))})
+      (team-input "Team B" {:players (sort (:players @app-state)) :on-change #(set-score scores :team_b (.-target.value %))})
+      [:input {:type "submit" :value "Add" :on-click #(dispatch [:add-game @scores])}]]))
