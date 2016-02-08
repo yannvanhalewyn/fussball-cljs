@@ -27,4 +27,4 @@
   [:div
    (team-input :team_a players (:team_a form-data))
    (team-input :team_b players (:team_b form-data))
-   [:input {:type "submit" :value "Add" :on-click #(dispatch [:add-game])}]])
+   [:input {:type "submit" :value "Add" :on-click #(dispatch [:add-game form-data])}]])
