@@ -16,7 +16,7 @@
        [amf/add-match-form
         (sort (:players @app-state))
         (:add-match-form @app-state)]
-       [games/list (:games @app-state)]])))
+       [games/display (:games @app-state)]])))
 
 (defn ^:export run []
   (dispatch [:initialise-db])

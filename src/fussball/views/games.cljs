@@ -1,8 +1,10 @@
 (ns fussball.views.games)
 
-(defn game-data [game]
-  [:li {:key (:id game)}
+(defn game-data [idx game]
+  (prn idx)
+  [:li {:key idx}
    [:hr]
+   [:b idx " "]
    [:span (get-in game [:team_a :player])]
    " "
    [:span (get-in game [:team_a :score])]
@@ -11,6 +13,6 @@
    " "
    [:span (get-in game [:team_b :player])]])
 
-(defn list [games]
+(defn display [games]
   [:ul
-   (map game-data games)])
+   (map-indexed game-data games)])

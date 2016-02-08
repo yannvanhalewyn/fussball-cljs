@@ -35,7 +35,7 @@
  :add-game
  [(path :games)]
  (fn [games [_ game]]
-   (conj games (conj game {:id (count games)}))))
+   (conj games game)))
 
 (register-handler
  :print-state
