@@ -3,13 +3,14 @@
             [re-frame.core :refer [dispatch]]))
 
 ;; Form elements
-(defn select-option [option selected?]
-  [:option {:value option :selected selected?} option])
+(defn select-option [option]
+  [:option {:key option :value option} option])
 
 (defn player-selector [team players selected]
   [:select
-   {:on-change #(dispatch [:player-selected team (.-target.value %)])}
-   (map #(select-option % (= selected %)) players)])
+   {:value selected
+    :on-change #(dispatch [:player-selected team (.-target.value %)])}
+   (map select-option players)])
 
 (defn score-input [{:keys [on-change value]}]
   [:input {:type "number" :value value :on-change on-change}])
