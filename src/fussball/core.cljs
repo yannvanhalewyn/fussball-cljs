@@ -8,18 +8,20 @@
 (enable-console-print!)
 
 (defn app-root [app-state]
-  [:div
-   [:h1 "Badass Fussball Application"]
-   [amf/add-match-button]
-   [amf/add-match-form app-state]])
-
-(defn ^:export main []
-  (dispatch [:initialise-db])
   (let [app-state (subscribe [:app-state])]
-    (reagent/render-component [app-root app-state]
-                              (. js/document (getElementById "app")))))
+    (fn []
+      [:div
+       [:button {:on-click #(dispatch [:print-state])} "Print State"]
+       [:h1 "Badass Fussball Application"]
+       [amf/add-match-form
+        (sort (:players @app-state))
+        (:add-match-form @app-state)]
+       [:p (:games app-state)]])))
 
-(main)
+(defn ^:export run []
+  (dispatch [:initialise-db])
+  (reagent/render-component [app-root]
+                            (. js/document (getElementById "app"))))
 
 (defn on-js-reload []
   ;; optionally touch your app-state to force rerendering depending on
