@@ -2,7 +2,5 @@
 
 (defn goals-per-player [games]
   (->> games
-      (map (fn [g] [(:team_a g) (:team_b g)]))
-      flatten
-      (reduce (fn [out game]
-                (update out (:player game) + (:score game))) {})))
+      (mapcat vals)
+      (reduce #(update %1 (:player %2) + (:score %2)) {})))
