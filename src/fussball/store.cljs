@@ -1,6 +1,8 @@
 (ns fussball.store
   (:require [reagent.core :as r]))
 
+;; Setups
+;; ======
 (def initial-state
   {:players
     ["David" "Yann" "Stefan" "Tom" "Richard" "Raymond" "Arjan"
@@ -15,25 +17,31 @@
 
 (defonce app-state (r/atom initial-state))
 
-(defn get-state []
-  app-state)
+;; Handlers
+;; ========
+(defmulti handler (fn [db payload] (:payload_type payload)))
 
-(defn print-state [db]
+(defmethod handler :set_score_input [db payload]
+  (assoc-in db [:add-match-form (:team payload) :score] (:score payload)))
+
+(defmethod handler :set_selected_player [db payload]
+  (assoc-in db [:add-match-form (:team payload) :player] (:player payload)))
+
+(defmethod handler :add_game [db payload]
+  (update db :games conj (:game payload)))
+
+(defmethod handler :print_state [db _]
   (prn db)
   db)
 
-(defn default-handler [db payload]
+(defmethod handler :default [db payload]
   (prn (str "No such handler " (:payload_type payload)))
   db)
 
-(defn handle-payload [db payload]
-  (case (:payload_type payload)
-    :set_score_input (assoc-in db [:add-match-form (:team payload) :score] (:score payload))
-    :set_selected_player (assoc-in db [:add-match-form (:team payload) :player] (:player payload))
-    :print_state (print-state db)
-    :add_game (update db :games conj (:game payload))
-    (default-handler db payload)))
-
+;; Public
+;; ======
 (defn execute [payload]
-  (prn payload)
-  (swap! app-state handle-payload payload))
+  (swap! app-state handler payload))
+
+(defn get-state []
+  app-state)
