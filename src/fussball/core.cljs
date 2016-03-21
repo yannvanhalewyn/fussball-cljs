@@ -1,17 +1,18 @@
 (ns fussball.core
   (:require [reagent.core :as reagent]
             [fussball.actions]
+            [fussball.store :as store]
+            [fussball.dispatcher :refer [dispatch]]
             [fussball.views.games :as games]
-            [fussball.add-match-form :as amf]
-            [re-frame.core :refer [dispatch subscribe]]))
+            [fussball.add-match-form :as amf]))
 
 (enable-console-print!)
 
 (defn fussball []
-  (let [app-state (subscribe [:app-state])]
+  (let [app-state (store/get-state)]
     (fn []
       [:div
-       [:button {:on-click #(dispatch [:print-state])} "Print State"]
+       [:button {:on-click #(dispatch :print-state)} "Print State"]
        [:h1 "Badass Fussball Application"]
        [amf/add-match-form
         (sort (:players @app-state))
@@ -19,7 +20,6 @@
        [games/display (:games @app-state)]])))
 
 (defn ^:export run []
-  (dispatch [:initialise-db])
   (reagent/render-component [fussball]
                             (. js/document (getElementById "app"))))
 
