@@ -1,5 +1,5 @@
 (ns fussball.add-match-form
-  (:require [fussball.dispatcher :refer [dispatch]]))
+  (:require [fussball.flux.dispatcher :refer [dispatch]]))
 
 ;; Form elements
 (defn select-option [option & {disabled :disabled}]

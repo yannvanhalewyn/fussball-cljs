@@ -1,8 +1,8 @@
 (ns fussball.core
   (:require [reagent.core :as reagent]
+            [fussball.flux.dispatcher :refer [dispatch]]
             [fussball.actions]
             [fussball.store :as store]
-            [fussball.dispatcher :refer [dispatch]]
             [fussball.views.games :as games]
             [fussball.add-match-form :as amf]))
 

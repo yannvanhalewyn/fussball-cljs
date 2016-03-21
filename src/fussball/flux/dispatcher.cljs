@@ -1,4 +1,4 @@
-(ns fussball.dispatcher
+(ns fussball.flux.dispatcher
   (:require [fussball.store :as store]))
 
 (defmulti action (fn [action_type params] action_type))
