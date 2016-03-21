@@ -1,6 +1,5 @@
 (ns fussball.actions
-  (:require-macros [fussball.flux.core :refer [defaction]])
-  (:require [fussball.flux.core]))
+  (:require-macros [fussball.flux.core :refer [defaction]]))
 
 (defaction :score-input [team score]
   {:payload_type :set_score_input
