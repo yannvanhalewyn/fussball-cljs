@@ -8,7 +8,7 @@
 (defn player-selector [team players taken selected]
   [:select
    {:value selected
-    :on-change #(dispatch :player-selected [team (.-target.value %)])}
+    :on-change #(dispatch :player-selected team (.-target.value %))}
    (map #(select-option % :disabled (= taken %)) players)])
 
 (defn score-input [{:keys [on-change value]}]
@@ -20,10 +20,10 @@
    [score-input 
     {:value (:score fields)
      :on-change
-     #(dispatch :score-input [team (js/parseInt (.-target.value %))])}]])
+     #(dispatch :score-input team (js/parseInt (.-target.value %)))}]])
 
 (defn add-match-form [players form-data]
-  [:form {:on-submit (fn [e] (.preventDefault e)(dispatch :add-game [form-data]))}
+  [:form {:on-submit (fn [e] (.preventDefault e)(dispatch :add-game form-data))}
    [team-input
     :team :team_a
     :players players
